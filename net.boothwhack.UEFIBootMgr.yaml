@@ -1,0 +1,33 @@
+app-id: net.boothwhack.UEFIBootMgr
+runtime: org.gnome.Platform
+runtime-version: "44"
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: uefi-bootmgr
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  build-args:
+    - --share=network
+  env:
+    RUST_BACKTRACE: "1"
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /man
+  - /share/doc
+  - /share/gtk-doc
+  - /share/man
+  - "*.la"
+  - "*.a"
+finish-args:
+  - --socket=wayland
+  - --talk-name=org.gtk.vfs.*
+  - --filesystem=xdg-run/gvfsd
+modules:
+  - name: uefi-bootmgr
+    builddir: true
+    buildsystem: meson
+    sources:
+      - type: dir
+        path: ./
