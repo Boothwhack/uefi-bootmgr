@@ -46,6 +46,10 @@ impl Debug for BootEntry {
 }
 
 impl BootEntry {
+    pub fn id(&self) -> u16 {
+        self.id
+    }
+
     pub fn description(&self) -> &str {
         self.load_option.description()
     }

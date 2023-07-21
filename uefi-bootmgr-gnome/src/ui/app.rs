@@ -1,6 +1,7 @@
 use adw::prelude::*;
 use adw::gtk::{Align, Box, Label, ListBox, Orientation, SelectionMode};
 use adw::{ActionRow, Clamp, HeaderBar, StatusPage, WindowTitle};
+use adw::gio::File;
 use adw::glib::MainContext;
 use efivar::backend::{EFIVars, platform_backend};
 use efivar::efiboot::ListBootEntriesExt;
@@ -38,7 +39,7 @@ async fn main_page(efivars: impl EFIVars, content: Box) {
     match efivars.list_boot_entries().await {
         Ok(entries) => {
             content.append(&Label::builder()
-                .label("Boot Entries")
+                .label("Boot order")
                 .halign(Align::Start)
                 .css_classes(["heading"])
                 .margin_top(10)
@@ -50,12 +51,13 @@ async fn main_page(efivars: impl EFIVars, content: Box) {
             content.append(&list);
 
             for entry in entries.iter() {
+                let active = if entry.is_active() { "Active" } else { "Inactive" };
                 list.append(&ActionRow::builder()
                     .title(entry.description())
-                    .subtitle(if entry.is_active() { "Active" } else { "Inactive" })
+                    .subtitle(format!("Boot{:04X} - {}", entry.id(), active))
                     .build());
             }
-        },
+        }
         Err(err) => {
             content.append(&StatusPage::builder()
                 .description(format!("<b>Failed to list EFI boot entries</b>\r\r{}", err))
@@ -63,35 +65,4 @@ async fn main_page(efivars: impl EFIVars, content: Box) {
                 .build());
         }
     }
-
-    /*match efivars.list_variables().await {
-        Ok(variables) => {
-            content.append(&Label::builder()
-                .label("Boot Entries")
-                .halign(Align::Start)
-                .css_classes(["heading"])
-                .margin_top(10)
-                .build());
-            let list = ListBox::builder()
-                .selection_mode(SelectionMode::None)
-                .css_classes(vec!["boxed-list"])
-                .build();
-            content.append(&list);
-
-            for entry in variables.into_iter().filter_map(Result::ok)
-                .filter_map(|var| BootEntry::parse(&var))
-                .filter_map(Result::ok) {
-                list.append(&ActionRow::builder()
-                    .title(entry.description())
-                    .subtitle(if entry.is_active() { "Active" } else { "Inactive" })
-                    .build());
-            }
-        }
-        Err(err) => {
-            content.append(&StatusPage::builder()
-                .description(format!("<b>Failed to list EFI variables</b>\r\r{}", err))
-                .icon_name("dialog-warning-symbolic")
-                .build());
-        }
-    }*/
 }
