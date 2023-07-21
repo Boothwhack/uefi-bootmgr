@@ -8,7 +8,7 @@ use std::io;
 use std::iter::once;
 use std::string::FromUtf16Error;
 use std::ops::Range;
-use bytemuck::{bytes_of, cast_slice};
+use bytemuck::cast_slice;
 use gio::glib;
 use crate::efidevicepath::{DevicePathProtocolParseError, EFIDevicePathProtocol};
 

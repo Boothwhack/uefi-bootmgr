@@ -18,6 +18,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9c7d0618f0e0b7e8ff11427422b64564d5fb0be1940354bfe2e0529b18a9d9b8"
 
 [[package]]
+name = "async-trait"
+version = "0.1.71"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a564d521dd56509c4c47480d00b80ee55f7e385ae48db5744c67ad50c92d2ebf"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.26",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -100,6 +111,25 @@ checksum = "215c0072ecc28f92eeb0eea38ba63ddfcb65c2828c46311d646f1a3ff5f9841c"
 dependencies = [
  "smallvec",
  "target-lexicon",
+]
+
+[[package]]
+name = "efivar"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "bytemuck",
+ "byteorder",
+ "enumflags2",
+ "env_logger",
+ "futures",
+ "gio",
+ "libadwaita",
+ "log",
+ "num_enum",
+ "regex",
+ "thiserror",
+ "uuid",
 ]
 
 [[package]]
@@ -950,21 +980,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "uefi-bootmgr"
+name = "uefi-bootmgr-gnome"
 version = "0.1.0"
 dependencies = [
- "bytemuck",
- "byteorder",
- "enumflags2",
+ "efivar",
  "env_logger",
  "futures",
- "gio",
  "libadwaita",
  "log",
- "num_enum",
- "regex",
- "thiserror",
- "uuid",
 ]
 
 [[package]]

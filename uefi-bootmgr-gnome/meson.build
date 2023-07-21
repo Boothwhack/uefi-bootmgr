@@ -1,10 +1,7 @@
 sources = [
-    'test/Boot0001-8be4df61-93ca-11d2-aa0d-00e098032b8c',
-    'main.rs',
-    'efiboot.rs',
-    'efidevicepath.rs',
-    'efiloadoption.rs',
-    'efivars.rs',
+    'src/ui/mod.rs',
+    'src/ui/app.rs',
+    'src/main.rs',
 ]
 
 cargo_script = find_program(join_paths(meson.source_root(), 'build-aux/cargo.sh'))

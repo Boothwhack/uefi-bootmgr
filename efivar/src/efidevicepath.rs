@@ -1,5 +1,4 @@
 use std::error::Error;
-use std::hash::Hasher;
 use std::io;
 use std::io::{Read, Write};
 use std::iter::Sum;
